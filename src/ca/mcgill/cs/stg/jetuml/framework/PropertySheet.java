@@ -70,6 +70,8 @@ public class PropertySheet extends JPanel
 			add("endArrowHead"); 
             add("bentStyle");       
             add("lineStyle");
+            add("TotalEdges");
+            add("EdgeNumber");
 	}};
 	
 	static

@@ -44,11 +44,14 @@ public class StateTransitionEdge extends ShapeEdge
 	private static final int DEGREES_10 = 10;
 	private static final int DEGREES_30 = 30;
 	private static final int DEGREES_60 = 60;
+	private static final int MIN_ANGLE = -60;
+	private static final int MAX_ANGLE = 60;
 	private static JLabel label = new JLabel();
 	private double aAngle;
 	private String aLabelText = "";
 	private int aEdgeNumber = 0;
-	   
+	private int aTotalEdges = 0;
+	
 	/**
      * Sets the label property value.
      * @param pNewValue the new value
@@ -83,6 +86,24 @@ public class StateTransitionEdge extends ShapeEdge
 	public int getEdgeNumber()
 	{
 		return aEdgeNumber;
+	}
+
+	/**
+     * Sets the total number of edges to the same node.
+     * @param pNewNumber the new value
+	 */
+	public void setTotalEdges(int pNewNumber)
+	{
+		aTotalEdges = pNewNumber;
+	}
+	
+	/**
+     * Returns the total number of edges to the same node.
+     * @return the total number of edges
+	 */
+	public int getTotalEdges()
+	{
+		return aTotalEdges;
 	}
 
 	@Override
@@ -209,8 +230,13 @@ public class StateTransitionEdge extends ShapeEdge
 	
 	private int getEdgeAngle()
 	{
-		int initialAngle = DEGREES_10;
-		int offsetAngle = DEGREES_10;
-		return initialAngle - offsetAngle*aEdgeNumber;
+		//Edge case for the prototype only
+		if(aTotalEdges == 0)
+		{
+			return 0;
+		}
+		//Spread the edges evenly among the available space, including a baseline offset of 10 degrees
+		int angle = DEGREES_5 + (int)(MAX_ANGLE - (aEdgeNumber*1.0 + 1)/(aTotalEdges + 1) * (MAX_ANGLE - MIN_ANGLE));
+		return angle;
 	}
 }

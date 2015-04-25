@@ -27,6 +27,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import ca.mcgill.cs.stg.jetuml.framework.Grid;
 import ca.mcgill.cs.stg.jetuml.framework.MultiLineString;
@@ -66,7 +67,7 @@ public class StateNode extends RectangularNode
 				getBounds().getWidth(), getBounds().getHeight(), ARC_SIZE, ARC_SIZE);
    }
 
-	@Override	
+	@Override
 	public void layout(Graph pGraph, Graphics2D pGraphics2D, Grid pGrid)
 	{
 		Rectangle2D b = aName.getBounds(pGraphics2D);
@@ -108,7 +109,45 @@ public class StateNode extends RectangularNode
 		boolean correct = super.addEdge(pEdge, pPoint1, pPoint2);
 		if(correct && pEdge instanceof StateTransitionEdge)
 		{
-			((StateTransitionEdge)pEdge).setEdgeNumber(getOriginEdges().indexOf(pEdge));
+			int numToNode = 0;
+			int totalEdges = -1;
+			ArrayList<Edge> originEdges = (ArrayList<Edge>) getOriginEdges();
+			for(int i = 0; i< originEdges.size(); i++)
+			{
+				if(originEdges.get(i).getEnd() == pEdge.getEnd())
+				{
+					numToNode++;
+					if(totalEdges == -1)
+					{
+						totalEdges = ((StateTransitionEdge)originEdges.get(i)).getTotalEdges() + 1;
+					}
+					((StateTransitionEdge)originEdges.get(i)).setTotalEdges(totalEdges);
+				}
+			}
+			((StateTransitionEdge)pEdge).setEdgeNumber(numToNode - 1);
+		}
+		return correct;
+	}
+	
+	@Override
+	public boolean removeEdge(Graph pGraph, Edge pEdge)
+	{
+		boolean correct = super.removeEdge(pGraph, pEdge);
+		if(correct && pEdge instanceof StateTransitionEdge)
+		{
+			int totalEdges = -1;
+			ArrayList<Edge> originEdges = (ArrayList<Edge>) getOriginEdges();
+			for(int i = 0; i< originEdges.size(); i++)
+			{
+				if(originEdges.get(i).getEnd() == pEdge.getEnd())
+				{
+					if(totalEdges == -1)
+					{
+						totalEdges = ((StateTransitionEdge)originEdges.get(i)).getTotalEdges() - 1;
+					}
+					((StateTransitionEdge)originEdges.get(i)).setTotalEdges(totalEdges);
+				}
+			}
 		}
 		return correct;
 	}
