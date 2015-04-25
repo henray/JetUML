@@ -24,6 +24,7 @@ package ca.mcgill.cs.stg.jetuml.graph;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -99,5 +100,16 @@ public class StateNode extends RectangularNode
 		StateNode cloned = (StateNode)super.clone();
 		cloned.aName = (MultiLineString)aName.clone();
 		return cloned;
+	}
+	
+	@Override
+	public boolean addEdge(Edge pEdge, Point2D pPoint1, Point2D pPoint2)
+	{
+		boolean correct = super.addEdge(pEdge, pPoint1, pPoint2);
+		if(correct && pEdge instanceof StateTransitionEdge)
+		{
+			((StateTransitionEdge)pEdge).setEdgeNumber(getOriginEdges().indexOf(pEdge));
+		}
+		return correct;
 	}
 }

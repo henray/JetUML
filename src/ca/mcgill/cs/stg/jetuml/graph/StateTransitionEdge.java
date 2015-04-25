@@ -47,6 +47,7 @@ public class StateTransitionEdge extends ShapeEdge
 	private static JLabel label = new JLabel();
 	private double aAngle;
 	private String aLabelText = "";
+	private int aEdgeNumber = 0;
 	   
 	/**
      * Sets the label property value.
@@ -56,7 +57,7 @@ public class StateTransitionEdge extends ShapeEdge
 	{
 		aLabelText = pNewValue;
 	}
-
+	
 	/**
      * Gets the label property value.
      * @return the current value
@@ -64,6 +65,24 @@ public class StateTransitionEdge extends ShapeEdge
 	public String getLabel()
 	{
 		return aLabelText;
+	}
+	
+	/**
+     * Sets the edge number property value.
+     * @param pNewNumber the new value
+	 */
+	public void setEdgeNumber(int pNewNumber)
+	{
+		aEdgeNumber = pNewNumber;
+	}
+	
+	/**
+     * Gets the edge number property value.
+     * @return the current value
+	 */
+	public int getEdgeNumber()
+	{
+		return aEdgeNumber;
 	}
 
 	@Override
@@ -162,7 +181,7 @@ public class StateTransitionEdge extends ShapeEdge
 		r.add(getLabelBounds());
 		return r;
 	}
-   
+	
 	@Override
 	public Line2D getConnectionPoints()
 	{
@@ -177,7 +196,7 @@ public class StateTransitionEdge extends ShapeEdge
 		}
 		else
 		{
-			aAngle = DEGREES_10;
+			aAngle = getEdgeAngle();
 			Rectangle2D start = getStart().getBounds();
 			Rectangle2D end = getEnd().getBounds();
 			Point2D startCenter = new Point2D.Double(start.getCenterX(), start.getCenterY());
@@ -186,5 +205,12 @@ public class StateTransitionEdge extends ShapeEdge
 			d2 = new Direction(endCenter, startCenter).turn(DEGREES_5);
 		}
 		return new Line2D.Double(getStart().getConnectionPoint(d1), getEnd().getConnectionPoint(d2));
+	}
+	
+	private int getEdgeAngle()
+	{
+		int initialAngle = DEGREES_10;
+		int offsetAngle = DEGREES_10;
+		return initialAngle - offsetAngle*aEdgeNumber;
 	}
 }
