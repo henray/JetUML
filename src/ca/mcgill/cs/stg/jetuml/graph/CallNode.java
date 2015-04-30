@@ -155,7 +155,7 @@ public class CallNode extends ParentNode
 				parent = parent.getParent();
 			}
          
-			if(((CallNode)end).getParent() == null && end != parent)
+			if((((CallNode)end).getParent() == null || ((CallNode)end).getParent() == this) && end != parent)
 			{
 				n = end;
 			}
@@ -299,7 +299,7 @@ public class CallNode extends ParentNode
 	@Override
 	public void addChild(int pIndex, ParentNode pNode) 
 	{
-		if (pNode == null || pIndex < 0) //base cases to not deal with
+		if (pNode == null || pIndex < 0 || aCalls.contains(pNode)) //base cases to not deal with
 		{
 			return;
 		}

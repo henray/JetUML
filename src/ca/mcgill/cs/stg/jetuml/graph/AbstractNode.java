@@ -61,6 +61,8 @@ public abstract class AbstractNode implements Node
 		try
 		{
 			AbstractNode cloned = (AbstractNode) super.clone();
+			cloned.aOriginEdges = new ArrayList<Edge>();
+			cloned.aTerminalEdges = new ArrayList<Edge>();
 			return cloned;
 		}
 		catch(CloneNotSupportedException exception)
