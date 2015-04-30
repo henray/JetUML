@@ -33,16 +33,14 @@ import ca.mcgill.cs.stg.jetuml.graph.StateTransitionEdge;
  */
 public final class Clipboard 
 {
-	//private Class<? extends Graph> aDiagramType; // We can use the diagram class to tag the type of nodes and edges.
 	private List<Node> aNodes;
 	private List<Edge> aEdges;
 
 	/**
-	 * A constructor for a Clipboard object.
+	 * Creates an empty Clipboard.
 	 */
 	public Clipboard() 
-	{
-	}
+	{}
 
 	/**
 	 * @param pSelection The currently selected elements to add to the Clipboard.
@@ -101,7 +99,7 @@ public final class Clipboard
 	 * @param pElement the current GraphElement being considered.
 	 * @param pOriginalAndClonedNodes the LinkedHasMap of original and cloned nodes.
 	 */
-	public void fixParentChildRelationShips(GraphElement pElement, Map<Node, Node> pOriginalAndClonedNodes)
+	private void fixParentChildRelationShips(GraphElement pElement, Map<Node, Node> pOriginalAndClonedNodes)
 	{
 		if(pElement instanceof ParentNode)
 		{
@@ -222,7 +220,7 @@ public final class Clipboard
 	 * @param pBounds the bounds to translate the elements.
 	 * @return a new SelectionList with the pasted elements.
 	 */
-	public SelectionList constructNewSelectionList(GraphPanel pGraphPanel, ArrayList<Node> pCopyNodes, ArrayList<Edge> pCopyEdges, 
+	private SelectionList constructNewSelectionList(GraphPanel pGraphPanel, ArrayList<Node> pCopyNodes, ArrayList<Edge> pCopyEdges, 
 			boolean pOriginalPositions, Rectangle2D pBounds)
 	{
 		/*
@@ -281,7 +279,7 @@ public final class Clipboard
 	 * @return true if the two edges have the same type and false if not.
 	 * NOTE: All Note edges are removed following this check.
 	 */
-	public boolean checkEdgeEquality(Edge pEdge1, Edge pEdge2, Graph pGraph)
+	private boolean checkEdgeEquality(Edge pEdge1, Edge pEdge2, Graph pGraph)
 	{
 		boolean equal = false;
 		if(pGraph instanceof ClassDiagramGraph || pGraph instanceof UseCaseDiagramGraph)
@@ -323,7 +321,7 @@ public final class Clipboard
 	 * @param pGraph The current ClassDiagramGraph in the GraphPanel
 	 * @return true if the two edges have the same type, false otherwise.
 	 */
-	public boolean classDiagramEdgeEqual(ClassRelationshipEdge pEdge1, ClassRelationshipEdge pEdge2, Graph pGraph)
+	private boolean classDiagramEdgeEqual(ClassRelationshipEdge pEdge1, ClassRelationshipEdge pEdge2, Graph pGraph)
 	{
 		if(pEdge1.getLineStyle() == pEdge2.getLineStyle())
 		{
